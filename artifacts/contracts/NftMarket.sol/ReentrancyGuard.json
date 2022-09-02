@@ -1,0 +1,16 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "ReentrancyGuard",
+  "sourceName": "contracts/NftMarket.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b506001600081905550603f8060256000396000f3fe6080604052600080fdfea26469706673582212208cfce0bf73990d740e315ab12c924ef4ea0b900bb462d83fede6cd9b0d1ea20864736f6c63430008090033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212208cfce0bf73990d740e315ab12c924ef4ea0b900bb462d83fede6cd9b0d1ea20864736f6c63430008090033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
