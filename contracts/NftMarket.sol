@@ -70,24 +70,6 @@ library SafeMath {
     }
 }
 
-// library Counters {
-//     struct Counter {
-//         uint256 _value; // default: 0
-//     }
-
-//     function current(Counter storage counter) internal view returns (uint256) {
-//         return counter._value;
-//     }
-
-//     function increment(Counter storage counter) internal {
-//         unchecked {
-//             uint256 c = counter._value + 1;
-//             require(c >= counter._value, "SafeMath: addition overflow");
-//             counter._value += 1;
-//         }
-//     }
-// }
-
 contract ReentrancyGuard {
     uint256 private constant _NOT_ENTERED = 1;
     uint256 private constant _ENTERED = 2;
