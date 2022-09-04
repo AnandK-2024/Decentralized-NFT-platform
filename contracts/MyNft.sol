@@ -3,23 +3,6 @@ pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 import "@openzeppelin/contracts/utils/Counters.sol";
-// import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-
-// library Counters {
-//     struct Counter {
-//         uint256 _value; // default: 0
-//     }
-
-//     function current(Counter storage counter) internal view returns (uint256) {
-//         return counter._value;
-//     }
-
-//     function increment(Counter storage counter) internal {
-//         unchecked {
-//             counter._value += 1;
-//         }
-//     }
-// }
 
 abstract contract MyNft is ERC721URIStorage {
     using Counters for Counters.Counter;
