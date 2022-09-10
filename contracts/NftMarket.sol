@@ -91,13 +91,9 @@ contract NftMarket is ReentrancyGuard {
     mapping(uint256 => MarketItem) private IdtoMarketItem;
 
     event MarketCreated(
-        // uint256 indexed itemId,
         address indexed nftContract,
         address indexed Seller,
         address indexed Owner
-        // uint256 indexed TokenId,
-        // uint256 indexed Price,
-        // bool Sold
     );
 
     event Sig_Verified(string Faculty_Name, string e_mail, uint256 Token_Id);
@@ -132,15 +128,7 @@ contract NftMarket is ReentrancyGuard {
 
         // IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
         //ERC721 is a standard for representing ownership of non-fungible tokens, that is, where each token is unique. ERC721 is a more complex standard than ERC20, with multiple optional extensions, and is split across a number of contracts.
-        emit MarketCreated(
-            // ItemId,
-            nftContract,
-            msg.sender,
-            msg.sender
-            // tokenId,
-            // Price,
-            // false
-        );
+        emit MarketCreated(nftContract, msg.sender, msg.sender);
     }
 
     modifier OnlyOwner(address nftContract, uint256 tokenId) {
