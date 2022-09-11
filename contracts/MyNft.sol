@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-abstract contract MyNft is ERC721URIStorage {
+contract MyNft is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     address contractAddress;

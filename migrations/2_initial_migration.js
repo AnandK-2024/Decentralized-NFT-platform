@@ -1,5 +1,10 @@
-const MyNft = artifacts.require("MyNft");
-
+const NftMarket = artifacts.require("NftMarket");
 module.exports = function (deployer) {
-  deployer.deploy(MyNft(0xd453aaB6def4dF34283229641cBd6719bbcdbA5E));
+    deployer.deploy(NftMarket).then(() => {
+
+    var address=NftMarket.address
+    
+
+    }
+    )
 };
