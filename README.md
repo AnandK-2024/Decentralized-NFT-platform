@@ -12,7 +12,8 @@
 - Copy the URL for the repository.
 
 3. To clone the repository using HTTPS, under "HTTPS", click .
-   \*To clone the repository using an SSH key, including a certificate issued by your organization's SSH certificate authority, click SSH, then click .
+
+   \* To clone the repository using an SSH key, including a certificate issued by your organization's SSH certificate authority, click SSH, then click .
 
 - To clone a repository using GitHub CLI, click GitHub CLI, then click .
 - The clipboard icon for copying the URL to clone a repository with GitHub CLI
