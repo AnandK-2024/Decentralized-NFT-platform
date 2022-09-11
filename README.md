@@ -24,4 +24,5 @@
 - Type git clone, and then paste the URL you copied earlier.
 
 or run this command
-$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+
+    $ git clone https://github.com/AnandK-2024/Decentralized-NFT-platform.git
