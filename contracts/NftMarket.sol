@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
+import "@openzeppelin/contracts/security/Pausable.sol";
 library SafeMath {
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
@@ -59,7 +59,8 @@ contract ReentrancyGuard {
     }
 }
 
-contract NftMarket is ReentrancyGuard {
+    // contract should be pausable for prevent from attacker
+contract NftMarket is ReentrancyGuard, Pausable {
     using Counters for Counters.Counter;
 
     // _ItemsID= Total n. of items of Nfts on this market place.
@@ -139,7 +140,7 @@ contract NftMarket is ReentrancyGuard {
         address nftContract,
         uint256 Price,
         uint256 tokenId
-    ) public payable nonReentrant {
+    ) public payable nonReentrant whenNotPaused {       // function runs when not paused by owner , pausable for security purpose
         require(msg.value > 0, "selling price must be greater than ZERO wei");
 
         // planning to remove this below condition 
@@ -180,7 +181,7 @@ contract NftMarket is ReentrancyGuard {
     }
 
         // function for buying nft that listed over market place 
-    function creatMarketSale(uint256 ItemId) public payable nonReentrant {
+    function creatMarketSale(uint256 ItemId) public payable nonReentrant whenNotPaused {
         // Given Items Id should listed on marketplace
         require(
             _ItemsId.current() >= ItemId,
@@ -238,7 +239,7 @@ contract NftMarket is ReentrancyGuard {
         emit Sig_Verified(Faculty_Name, _Signature, ItemId);
     }
 
-    function GiftNft(address _to, uint256 ItemId) public nonReentrant {
+    function GiftNft(address _to, uint256 ItemId) public nonReentrant whenNotPaused {
         MarketItem storage temp = IdtoMarketItem[ItemId];
         require(
             bytes(temp.Signature).length != 0,
@@ -258,6 +259,17 @@ contract NftMarket is ReentrancyGuard {
             msg.sender,
             tokenId
         );
+    }
+
+    // Owner of SmartContract
+    modifier Deployer_OnlyOwner(){
+        require(msg.sender==Owner,"You're not actual owner of smartcontract, ACCESS DENIED ");
+        _;
+    }
+
+    // In case of attaking , Owner can prevent all contract and data by pausing all function by calling this function
+    function Pause() private view Deployer_OnlyOwner {
+        Pausable.paused();
     }
 
     function fetchUnsoldMarketItems()
