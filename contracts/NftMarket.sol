@@ -40,6 +40,7 @@ library SafeMath {
     }
 }
 
+    // ReentrancyGuard proctect smartcontract from reentrancy attack 
 contract ReentrancyGuard {
     uint256 private constant _NOT_ENTERED = 1;
     uint256 private constant _ENTERED = 2;
@@ -132,19 +133,26 @@ contract NftMarket is ReentrancyGuard {
         return listingPrice;
     }
 
+    // Users can create their first Nft on this market
     function CreatMarketItem(
+        // address of Nft contract
         address nftContract,
         uint256 Price,
         uint256 tokenId
     ) public payable nonReentrant {
         require(msg.value > 0, "selling price must be greater than ZERO wei");
+
+        // planning to remove this below condition 
         require(
             msg.value == listingPrice,
             "Price must be equal to listing price"
         );
+
+        // N. of Items increse when any Users creat nft first time
         _ItemsId.increment();
-        uint256 ItemId = _ItemsId.current();
+        uint256 ItemId = _ItemsId.current();                //return current n. of total nft items
         MarketItem storage temp = IdtoMarketItem[ItemId];
+        // update history of current nft
         temp.itemId = ItemId;
         temp.nftContract = nftContract;
         temp.creater = payable(msg.sender);
@@ -152,15 +160,17 @@ contract NftMarket is ReentrancyGuard {
         temp.Price = Price;
         temp.TokenId = tokenId;
         temp.Signature = NULL;
+
+        // Transaction history of current history
         temp.Transaction_History.push(
             Transaction_Part("Created", (msg.sender), msg.sender)
         );
 
-        // IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
-        //ERC721 is a standard for representing ownership of non-fungible tokens, that is, where each token is unique. ERC721 is a more complex standard than ERC20, with multiple optional extensions, and is split across a number of contracts.
+        // pop out notification of successfully created nft on market place, in notification include nft contract , Owner and creater of nft
         emit MarketCreated(nftContract, msg.sender, msg.sender);
     }
 
+    // only Owner of current nft can acess this function
     modifier OnlyOwner(address nftContract, uint256 tokenId) {
         require(
             msg.sender == IERC721(nftContract).ownerOf(tokenId),
@@ -169,37 +179,46 @@ contract NftMarket is ReentrancyGuard {
         _;
     }
 
+        // function for buying nft that listed over market place 
     function creatMarketSale(uint256 ItemId) public payable nonReentrant {
+        // Given Items Id should listed on marketplace
         require(
             _ItemsId.current() >= ItemId,
             "Nothing to buy Nft at this ItemId"
         );
+        // acess all information of given ItemId of nfts
         MarketItem storage temp = IdtoMarketItem[ItemId];
         uint256 Price = temp.Price;
         uint256 tokenId = temp.TokenId;
         address nftContract = temp.nftContract;
+
+        // User must have enough money to purchase current nft----cheaking
         require(
             msg.value == Price,
             "please submit the asking price in order to complete the purchase"
         );
-        address From = temp.Owner; /////previous Owner of NFT
+        //previous Owner of NFT
+        address From = temp.Owner; 
 
+        // Update Owner of current nft
         temp.Owner = payable(msg.sender);
         temp.Sold = true;
+
+        // Update history of transation of nft(traking history of transaction)
         temp.Transaction_History.push(
             Transaction_Part("sell/Buy", payable(From), msg.sender)
         );
+        // count n. of at least sold nft on market
         _Itemsold.increment();
-        // ownership of nft's transfer from previous_owner to current_owner
+        // transfer ownership of nft's from previous_owner to current_owner
         IERC721(nftContract).transferFrom(
             IERC721(nftContract).ownerOf(tokenId),
             msg.sender,
             tokenId
         );
+        // required ETH transfer from current owner(buyer) to previous owner(seller)
         (bool sent, ) = payable(From).call{value: msg.value}("");
         require(sent, "Failed to send Ether to previous Owner of  Nft");
-
-        //////price estimate for royality
     }
 
     function AddSingnature(
