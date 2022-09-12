@@ -114,17 +114,20 @@ contract NftMarket is ReentrancyGuard {
         // tracking history of Owner of current nft
         Transaction_Part[] Transaction_History;
     }
-    
+    // mapping all Nfts of this market (items n. => history of nft)  
     mapping(uint256 => MarketItem) private IdtoMarketItem;
 
+    // notify at each transaction of nft 
     event MarketCreated(
         address indexed nftContract,
         address indexed Seller,
         address indexed Owner
     );
 
+    // notify when nft has signatured and verify by faculty 
     event Sig_Verified(string Faculty_Name, string e_mail, uint256 Token_Id);
 
+    // planning to remove listing price charge of market and this function too
     function getListingPrice() public view returns (uint256) {
         return listingPrice;
     }
