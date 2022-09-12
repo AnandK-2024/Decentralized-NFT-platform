@@ -60,34 +60,61 @@ contract ReentrancyGuard {
 
 contract NftMarket is ReentrancyGuard {
     using Counters for Counters.Counter;
+
+    // _ItemsID= Total n. of items of Nfts on this market place.
     Counters.Counter private _ItemsId;
+
+    // _Itemsold= Total n. of Nfts sold at least one times  on this market place.
     Counters.Counter private _Itemsold;
+
+    // Owner of deployer (of smart contract)
     address payable Owner;
     string private constant NULL = "";
+
+    /////// planning to remove listing price later
     uint256 listingPrice = 1 ether;
 
     constructor() {
         Owner = payable(msg.sender);
     }
 
+    // data of  users history (from ---> to )and its types of events (like-buy, sell, gift ) 
     struct Transaction_Part {
         string Event;
         address _from;
         address _to;
     }
 
+    // all information of nft 
     struct MarketItem {
+        // Item n. of current Nft on this market place
         uint256 itemId;
+
+        // Contract address of current nft
         address nftContract;
+
+        // Creater of current nft
         address payable creater;
+
+        // Owner of current nft
         address payable Owner;
+
+        // Token Id of current nft
         uint256 TokenId;
+
+        // price of current nft
         uint256 Price;
+        // current nft has sold or not atleaft one times
         bool Sold;
+        // nft has giftes or not
         bool Gifted;
+        // nft has signatured or not by faculty
         string Signature;
+
+        // tracking history of Owner of current nft
         Transaction_Part[] Transaction_History;
     }
+    
     mapping(uint256 => MarketItem) private IdtoMarketItem;
 
     event MarketCreated(
