@@ -268,11 +268,14 @@ contract NftMarket is ReentrancyGuard, Pausable {
     }
 
     // In case of attaking , Owner can prevent all contract and data by pausing all function by calling this function
+    //Triggers stopped state.
     function Pause() public  Deployer_OnlyOwner {
         _pause();
     }
 
     // after resolve issue , contract Owner can unpause all function
+    //Returns to normal state.
+    //condition-The contract must be paused.
     function Unpause() public Deployer_OnlyOwner{
         _unpause();
     }
