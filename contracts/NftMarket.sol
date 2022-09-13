@@ -69,8 +69,8 @@ contract NftMarket is ReentrancyGuard, Pausable {
     // _Itemsold= Total n. of Nfts sold at least one times  on this market place.
     Counters.Counter private _Itemsold;
 
-    // Owner of deployer (of smart contract)
-    address payable Owner;
+    // Owner of deployer (of smart contract) should immutable
+    address private immutable Owner;
     string private constant NULL = "";
 
     /////// planning to remove listing price later
@@ -268,8 +268,13 @@ contract NftMarket is ReentrancyGuard, Pausable {
     }
 
     // In case of attaking , Owner can prevent all contract and data by pausing all function by calling this function
-    function Pause() private view Deployer_OnlyOwner {
-        Pausable.paused();
+    function Pause() public  Deployer_OnlyOwner {
+        _pause();
+    }
+
+    // after resolve issue , contract Owner can unpause all function
+    function Unpause() public Deployer_OnlyOwner{
+        _unpause();
     }
 
     function fetchUnsoldMarketItems()
