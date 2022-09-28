@@ -233,10 +233,12 @@ contract NftMarket is ReentrancyGuard, Pausable {
         MarketItem memory temp = IdtoMarketItem[ItemId];
         address current_Owner= temp.Owner;
         require(msg.sender!=current_Owner,"your Nft has not sold yet.");
-
+        //price of withrawal nft 
+        uint price=HistoryOfdepositeOfNft[msg.sender][ItemId];
         // required ETH can withrow after verification of ownership
-        (bool sent, ) = payable(msg.sender).call{value: HistoryOfdepositeOfNft[msg.sender][ItemId]}("");
+        (bool sent, ) = payable(msg.sender).call{value: price}("");
         require(sent, "Failed to send Ether to account of Owner of  Nft");
+        emit Logwithraw(msg.sender, price);
     } 
 
     function AddSingnature(
