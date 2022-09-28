@@ -169,6 +169,8 @@ contract NftMarket is ReentrancyGuard, Pausable {
         temp.Transaction_History.push(
             Transaction_Part("Created", (msg.sender), msg.sender)
         );
+        //store price of each Nft crossponding to creator
+        HistoryOfdepositeOfNft[msg.sender][ItemId]=Price;
 
         // pop out notification of successfully created nft on market place, in notification include nft contract , Owner and creater of nft
         emit MarketCreated(nftContract, msg.sender, msg.sender);
@@ -192,6 +194,9 @@ contract NftMarket is ReentrancyGuard, Pausable {
         );
         // acess all information of given ItemId of nfts
         MarketItem storage temp = IdtoMarketItem[ItemId];
+        //previous Owner of NFT
+        address From = temp.Owner; 
+        require(msg.sender!=From,"you're the current owner of this NFT. owner can't purchase own NFT");
         uint256 Price = temp.Price;
         uint256 tokenId = temp.TokenId;
         address nftContract = temp.nftContract;
@@ -201,8 +206,6 @@ contract NftMarket is ReentrancyGuard, Pausable {
             msg.value == Price,
             "please submit the asking price in order to complete the purchase"
         );
-        //previous Owner of NFT
-        address From = temp.Owner; 
 
         // Update Owner of current nft
         temp.Owner = payable(msg.sender);
@@ -220,10 +223,21 @@ contract NftMarket is ReentrancyGuard, Pausable {
             msg.sender,
             tokenId
         );
-        // required ETH transfer from current owner(buyer) to previous owner(seller)
-        (bool sent, ) = payable(From).call{value: msg.value}("");
-        require(sent, "Failed to send Ether to previous Owner of  Nft");
+
+        //update store price of each Nft crossponding to creator
+        HistoryOfdepositeOfNft[msg.sender][ItemId]=Price;
     }
+
+    function withraw(uint ItemId) public {
+         // acess all information of given ItemId of nfts
+        MarketItem memory temp = IdtoMarketItem[ItemId];
+        address current_Owner= temp.Owner;
+        require(msg.sender!=current_Owner,"your Nft has not sold yet.");
+
+        // required ETH can withrow after verification of ownership
+        (bool sent, ) = payable(msg.sender).call{value: HistoryOfdepositeOfNft[msg.sender][ItemId]}("");
+        require(sent, "Failed to send Ether to account of Owner of  Nft");
+    } 
 
     function AddSingnature(
         string memory Faculty_Name,
