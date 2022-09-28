@@ -86,6 +86,9 @@ contract NftMarket is ReentrancyGuard, Pausable {
         address _from;
         address _to;
     }
+    // track balance of each nft of each users
+    mapping (address=>mapping(uint=>uint)) HistoryOfdepositeOfNft;
+    event Logwithraw(address indexed,uint price);
 
     // all information of nft 
     struct MarketItem {

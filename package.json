@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.2",
+    "@truffle/hdwallet-provider": "^2.0.14",
     "axios": "^0.27.2",
     "react-use-web3": "^1.0.0",
     "web3": "^1.7.5",
