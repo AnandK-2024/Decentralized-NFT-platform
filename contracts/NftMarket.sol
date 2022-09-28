@@ -186,7 +186,7 @@ contract NftMarket is ReentrancyGuard, Pausable {
     }
 
         // function for buying nft that listed over market place 
-    function creatMarketSale(uint256 ItemId) public payable nonReentrant whenNotPaused {
+    function buy(uint256 ItemId) public payable nonReentrant whenNotPaused {
         // Given Items Id should listed on marketplace
         require(
             _ItemsId.current() >= ItemId,
@@ -231,7 +231,7 @@ contract NftMarket is ReentrancyGuard, Pausable {
     function withraw(uint ItemId) public {
          // acess all information of given ItemId of nfts
         MarketItem memory temp = IdtoMarketItem[ItemId];
-        
+
         address current_Owner= temp.Owner;
         require(msg.sender!=current_Owner,"your Nft has not sold yet.");
 
