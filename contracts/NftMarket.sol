@@ -252,8 +252,7 @@ contract NftMarket is ReentrancyGuard, Pausable {
         string memory _Signature,
         uint256 ItemId
     )
-        public
-        nonReentrant
+        public              //no need to resistance from re-entrancy attack
         OnlyOwner(
             IdtoMarketItem[ItemId].nftContract,
             IdtoMarketItem[ItemId].TokenId
@@ -264,7 +263,7 @@ contract NftMarket is ReentrancyGuard, Pausable {
         emit Sig_Verified(Faculty_Name, _Signature, ItemId);
     }
 
-    function GiftNft(address _to, uint256 ItemId) public nonReentrant whenNotPaused {
+    function GiftNft(address _to, uint256 ItemId) public whenNotPaused {         //no need to resistance from re-entrancy attack
         MarketItem storage temp = IdtoMarketItem[ItemId];
         require(
             bytes(temp.Signature).length != 0,
