@@ -27,3 +27,14 @@
 or run this command
 
     $ git clone https://github.com/AnandK-2024/Decentralized-NFT-platform.git
+    
+    
+## MyNft file deployed on Goerli testnet
+
+[0x472B86a2BfFF217CA7Ffb3a4E1A1d2016997ddBC](https://goerli.etherscan.io/address/0x472B86a2BfFF217CA7Ffb3a4E1A1d2016997ddBC#readContract)
+
+## NftMarket place contract deployed at Goerli testnet
+
+[0xB61DdB21A75a47Cb3da0AF2f19e2e476F22B18ac](https://goerli.etherscan.io/address/0xB61DdB21A75a47Cb3da0AF2f19e2e476F22B18ac#readContract)
+
+go and intrect with smart contract.
