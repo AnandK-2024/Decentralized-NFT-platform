@@ -38,3 +38,7 @@ or run this command
 [0xB61DdB21A75a47Cb3da0AF2f19e2e476F22B18ac](https://goerli.etherscan.io/address/0xB61DdB21A75a47Cb3da0AF2f19e2e476F22B18ac#readContract)
 
 go and intrect with smart contract.
+
+
+## `bytecode deconstruction(zoom out)`
+[Bytescode analysis](https://gists.rawgit.com/ajsantander/23c032ec7a722890feed94d93dff574a/raw/a453b28077e9669d5b51f2dc6d93b539a76834b8/BasicToken.svg)
