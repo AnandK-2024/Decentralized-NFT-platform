@@ -386,4 +386,12 @@ contract NftMarket is ReentrancyGuard, Pausable {
         }
         return Items;
     }
+
+    // denial forcefully sent ether
+        // accept all ether from contract to this contract
+    fallback() external payable {
+        
+      // assert consumes all (!) gas
+    assert(false);
+    }
 }
