@@ -57,6 +57,12 @@ contract ReentrancyGuard {
         _;
         _status = _NOT_ENTERED;
     }
+
+    modifier validDestination(address to) {
+    require(to != address(0x0));
+    require(to != address(this));
+    _;
+}
 }
 
     // contract should be pausable for prevent from attacker
@@ -263,7 +269,7 @@ contract NftMarket is ReentrancyGuard, Pausable {
         emit Sig_Verified(Faculty_Name, _Signature, ItemId);
     }
 
-    function GiftNft(address _to, uint256 ItemId) public whenNotPaused {         //no need to resistance from re-entrancy attack
+    function GiftNft(address _to, uint256 ItemId) public whenNotPaused validDestination(_to){         //no need to resistance from re-entrancy attack
         MarketItem storage temp = IdtoMarketItem[ItemId];
         require(
             bytes(temp.Signature).length != 0,
